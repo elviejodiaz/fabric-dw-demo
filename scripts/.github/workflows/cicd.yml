@@ -1,0 +1,39 @@
+name: Fabric CI/CD
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Python dependencies
+        run: pip install msal requests
+
+      - name: Acquire Fabric Token
+        run: |
+          python scripts/get_token.py
+        env:
+          FABRIC_TENANT_ID: ${{ secrets.FABRIC_TENANT_ID }}
+          FABRIC_CLIENT_ID: ${{ secrets.FABRIC_CLIENT_ID }}
+          FABRIC_CLIENT_SECRET: ${{ secrets.FABRIC_CLIENT_SECRET }}
+
+      - name: Update DEV workspace with latest artifacts
+        run: |
+          python scripts/update_dev.py --workspace-id ${{ secrets.DEV_WORKSPACE_ID }}
+
+      - name: Deploy DEV → TEST
+        run: |
+          python scripts/deploy_stage.py \
+            --pipeline-id ${{ secrets.PIPELINE_ID }} \
+            --from DEV --to TEST
+
+      - name: Deploy TEST → PROD
+        run: |
+          python scripts/deploy_stage.py \
+            --pipeline-id ${{ secrets.PIPELINE_ID }} \
+            --from TEST --to PROD
