@@ -1,0 +1,26 @@
+{
+    "name": "TransferDataFromGold",
+    "objectId": "3933cbc5-0dc7-4098-b3e5-8cac28490597",
+    "properties": {
+        "activities": [
+            {
+                "name": "Transfer Data from Gold",
+                "type": "TridentNotebook",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "typeProperties": {
+                    "notebookId": "bc102325-e51e-40f3-be75-e89ce1d975aa",
+                    "workspaceId": "1219a419-0da2-46e8-89c0-5f22b8d88414"
+                }
+            }
+        ],
+        "lastModifiedByObjectId": "1e4803b1-764f-4f67-9121-9f4eff554bc6",
+        "lastPublishTime": "2026-02-17T15:48:11Z"
+    }
+}
